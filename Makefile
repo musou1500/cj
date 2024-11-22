@@ -23,19 +23,19 @@ GOARCH=$(shell go env GOARCH)
 # artifact: release/$(VERSION)/$(APPNAME)-$(GOOS)-$(GOARCH).tar.gz
 # binary: release/$(VERSION)/$(APPNAME)-$(GOOS)-$(GOARCH)/csv2json
 
-APPNAME=csv2json
+APPNAME=cj
 
 release: $(RELEASE_TARGETS)
 all: $(BUILD_TARGETS)
 
 build-windows-amd64:
-	@$(MAKE) build GOOS=windows GOARCH=amd64
+	@$(MAKE) build GOOS=windows GOARCH=amd64 SUFFIX=.exe
 
 release-windows-amd64: build-windows-amd64
 	@$(MAKE) release-zip GOOS=windows GOARCH=amd64
 
 build-windows-arm64:
-	@$(MAKE) build GOOS=windows GOARCH=arm64
+	@$(MAKE) build GOOS=windows GOARCH=arm64 SUFFIX=.exe
 
 release-windows-arm64: build-windows-arm64
 	@$(MAKE) release-zip GOOS=windows GOARCH=arm64
@@ -72,7 +72,7 @@ release-tgz: $(ARTIFACTS_DIR)
 	tar -czf $(ARTIFACTS_DIR)/$(APPNAME)-$(GOOS)-$(GOARCH).tar.gz -C $(RELEASE_DIR) $(APPNAME)-$(GOOS)-$(GOARCH)
 
 release-zip: $(ARTIFACTS_DIR)
-	cd $(RELEASE_DIR) && zip -9 $(CURDIR)/$(ARTIFACTS_DIR)/$(APPNAME)-$(GOOS)-$(GOARCH).zip $(APPNAME)-$(GOOS)-$(GOARCH)
+	cd $(RELEASE_DIR) && zip -r9 $(CURDIR)/$(ARTIFACTS_DIR)/$(APPNAME)-$(GOOS)-$(GOARCH).zip $(APPNAME)-$(GOOS)-$(GOARCH)
 
 build:
-	GOOS=darwin GOARCH=amd64 go build -o $(RELEASE_DIR)/$(APPNAME)-$(GOOS)-$(GOARCH)/$(APP_NAME) .
+	go build -o $(RELEASE_DIR)/$(APPNAME)-$(GOOS)-$(GOARCH)/$(APPNAME)$(SUFFIX) .
