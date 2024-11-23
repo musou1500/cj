@@ -37,11 +37,12 @@ func A1ToIndeces(s string) []int {
 
 		startIndex := A1ToIndex(start)
 		endIndex := A1ToIndex(end)
+		step := 1
 		if startIndex > endIndex {
-			startIndex, endIndex = endIndex, startIndex
+			step = -1
 		}
 
-		for i := startIndex; i <= endIndex; i++ {
+		for i := startIndex; i != endIndex+step; i += step {
 			columns = append(columns, i)
 		}
 	}

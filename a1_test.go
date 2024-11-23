@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestContains(t *testing.T) {
+func TestA1ToIndex(t *testing.T) {
 	tests := []struct {
 		a1       string
 		expected int
@@ -16,6 +16,7 @@ func TestContains(t *testing.T) {
 		{"AA", 26},
 		{"AB", 27},
 		{"AZ", 51},
+		{"AAA", 702},
 	}
 	for _, tt := range tests {
 		t.Run(tt.a1, func(t *testing.T) {
@@ -35,7 +36,9 @@ func TestA1ToIndeces(t *testing.T) {
 		{"", []int{}},
 		{"AA", []int{26}},
 		{"A:C", []int{0, 1, 2}},
+		{"C:A", []int{2, 1, 0}},
 		{"A:C,E", []int{0, 1, 2, 4}},
+		{"A:C,B:D", []int{0, 1, 2, 1, 2, 3}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.a1, func(t *testing.T) {
