@@ -57,7 +57,12 @@ func main() {
 		defer f.Close()
 	}
 
-	rows := selectColumns(readCSV(f), A1ToIndeces(*ranges))
+	columns, err := ParseRange(*ranges)
+	if err != nil {
+		panic(err)
+	}
+
+	rows := selectColumns(readCSV(f), columns)
 	for _, row := range rows {
 		json_bytes, err := json.Marshal(row)
 		if err != nil {
